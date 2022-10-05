@@ -1,6 +1,7 @@
 import random
 import matplotlib.pyplot as plt
 import numpy as np
+import time
 
 # Generate a random set of points
 def generate_points(n):
@@ -40,7 +41,7 @@ def hull(points):
         right = (left + 1) % len(points)
         for i in range(len(points)):
             # Test it's orientation, if it's counter clockwise, it's the next point if not continue.
-            if get_orientation(hull[-1], points[right], points[i]) == "counterclockwise":
+            if get_orientation(points[left], points[right], points[i]) == "counterclockwise":
                 right = i
         if points[right] == hull[0]: # This means we've looped around the list to the start point.
             break
@@ -53,15 +54,27 @@ def hull(points):
     return hull
 #END
 
-print("Convex Hull")
-points = generate_points(8)
-plot_points(points)
-hull = hull(points)
-x = [p[0] for p in hull]
-y = [p[1] for p in hull]
-plt.plot(x, y, 'r')
-# graph from last to first
-x.append(x[0])
-y.append(y[0])
-plt.plot(x, y, 'r')
-plt.show()
+# print("Convex Hull")
+# points = generate_points(15)
+# plot_points(points)
+# hull = hull(points)
+# x = [p[0] for p in hull]
+# y = [p[1] for p in hull]
+# plt.plot(x, y, 'r')
+# # graph from last to first
+# x.append(x[0])
+# y.append(y[0])
+# plt.plot(x, y, 'r')
+# plt.show()
+
+i = 10000
+for _ in range(1, 10):
+    i = i + i
+    points = generate_points(i)
+    # Time 
+    start = time.time_ns()
+    hull(points)
+    end = time.time_ns()
+
+    print("Time for", i, "points:", end - start)
+#END
